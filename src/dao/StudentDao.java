@@ -50,8 +50,10 @@ public class StudentDao {
 		EntityManager em = entityManagerFactory.createEntityManager();
 		
 		em.getTransaction().begin();
-		
-		em.merge(s);
+		if(!em.contains(s))
+			em.merge(s);
+		else
+			em.merge(s);
 		
 		em.getTransaction().commit();
 		
@@ -64,7 +66,7 @@ public class StudentDao {
 		
 		em.getTransaction().begin();
 		
-		em.remove(s);
+		em.remove(em.contains(s) ? s : em.merge(s));
 		
 		em.getTransaction().commit();
 	}
